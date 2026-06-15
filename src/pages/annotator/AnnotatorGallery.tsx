@@ -50,7 +50,7 @@ export default function AnnotatorGallery({
 	useImperativeHandle(ref, () => {
 		return {
 			resetToBeginning: () => {
-				if (!swiperRef.current) return;
+				if (!swiperRef.current?.swiper) return;
 				if (swiperRef.current.swiper.activeIndex > 0)
 					swiperRef.current.swiper.slideTo(0, 0, false);
 			},
