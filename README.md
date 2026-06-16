@@ -7,9 +7,7 @@ The first (and only) tool is the Annotator.
 
 This tool allows for fast annotations, targeting mobile devices, but can be used with laptops and desktops too.
 
-<img src="./docs/Annotator_Filters.png" width="330">
-<img src="./docs/Annotator_Plant.png" width="330">
-<img src="./docs/Annotator_Insect.png" width="330">
+<img src="./docs/Annotator_Filters.png" width="300"><img src="./docs/Annotator_Plant.png" width="300"><img src="./docs/Annotator_Insect.png" width="300">
 
 ## Development Setup
 - Install node and npm
