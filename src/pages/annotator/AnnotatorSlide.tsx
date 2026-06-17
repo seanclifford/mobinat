@@ -16,7 +16,7 @@ const AnnotatorSlide = React.memo(function AnnotatorSlide({
 	const { observation, controlledTerms } = annotatorObservation;
 
 	return (
-		<Box w={outerWidth}>
+		<Box w={outerWidth} mih="100vh">
 			<ObservationHero observation={observation} />
 			{observation && controlledTerms && (
 				<AnnotationSelector
