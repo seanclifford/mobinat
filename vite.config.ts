@@ -19,6 +19,7 @@ export default defineConfig(({ mode }) => {
 			},
 		},
 		build: {
+			sourcemap: true,
 			rolldownOptions: {
 				output: {
 					codeSplitting: {
