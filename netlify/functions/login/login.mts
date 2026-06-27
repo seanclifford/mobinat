@@ -1,4 +1,4 @@
-import { Context } from "@netlify/functions";
+import type { Context } from "@netlify/functions";
 
 export default async (request: Request, context: Context) => {
 	try {
@@ -25,7 +25,11 @@ export default async (request: Request, context: Context) => {
 			"https://www.inaturalist.org/v2/oauth/token",
 			postOptions,
 		);
-		if (!response.ok) return new Response(response.body, { status: 503 });
+		if (!response.ok)
+			return new Response(
+				`Unhandled response status: ${response.status} body: ${response.body}`,
+				{ status: 503 },
+			);
 
 		const token = await response.json();
 
@@ -38,7 +42,7 @@ export default async (request: Request, context: Context) => {
 		});
 		return new Response("Auth success. iNatAccessToken cookie created.");
 	} catch (error) {
-		return new Response(error.toString(), {
+		return new Response((error as Error).toString(), {
 			status: 500,
 		});
 	}
