@@ -15,7 +15,7 @@ export default function ObservationPhotos({
 	setPhotoIndex,
 }: ObservationPhotosProps) {
 	return (
-		<ScrollArea>
+		<ScrollArea className={photos.length > 6 ? "swiper-no-swiping" : undefined}>
 			{photos.length > 1 ? (
 				<Group
 					justify="safe center"
