@@ -8,7 +8,7 @@ import {
 	requestApiToken,
 } from "../inaturalist/auth";
 
-export default function useAuthentication(currentSite: Site): Authentication {
+export default function useAuthentication(): Authentication {
 	const [authentication, saveAuthentication] = useState(() =>
 		loadAuthenticationFromStore(),
 	);
@@ -21,11 +21,10 @@ export default function useAuthentication(currentSite: Site): Authentication {
 				: 0;
 
 			if (tokenExpiresIn <= 0) {
-				refreshAuthToken(currentSite, authentication, saveAuthentication);
+				refreshAuthToken(authentication, saveAuthentication);
 			} else {
 				refreshAuthTimeoutId.current = setTimeout(
-					() =>
-						refreshAuthToken(currentSite, authentication, saveAuthentication),
+					() => refreshAuthToken(authentication, saveAuthentication),
 					tokenExpiresIn,
 				);
 			}
@@ -35,7 +34,7 @@ export default function useAuthentication(currentSite: Site): Authentication {
 		return () => {
 			clearTimeout(refreshAuthTimeoutId.current);
 		};
-	}, [authentication, currentSite]);
+	}, [authentication]);
 
 	const logout = useCallback(() => {
 		clearAllAuthenticationState();
@@ -50,11 +49,10 @@ export default function useAuthentication(currentSite: Site): Authentication {
 }
 
 function refreshAuthToken(
-	currentSite: Site,
 	authentication: Authentication,
 	saveAuthentication: (auth: Authentication) => void,
 ) {
-	requestApiToken(currentSite).then((apiToken) => {
+	requestApiToken().then((apiToken) => {
 		if (apiToken) {
 			saveAuthentication({
 				...authentication,

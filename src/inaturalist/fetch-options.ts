@@ -47,14 +47,3 @@ export const deleteAuthFetchOptions = (authToken: string) => {
 		},
 	};
 };
-
-export const postFetchOptions = (bodyObj: unknown) => {
-	return {
-		method: "POST",
-		headers: {
-			"X-Via": USER_AGENT,
-			"Content-Type": "application/json;charset=utf-8",
-		},
-		body: JSON.stringify(bodyObj),
-	};
-};

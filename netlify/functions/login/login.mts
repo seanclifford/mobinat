@@ -6,7 +6,7 @@ export default async (request: Request, context: Context) => {
 		const code = url.searchParams.get("code");
 
 		const payload = {
-			client_id: process.env.OAUTH_APPLICATION_ID,
+			client_id: process.env.VITE_OAUTH_APPLICATION_ID,
 			client_secret: process.env.OAUTH_SECRET,
 			code: code,
 			grant_type: "authorization_code",
