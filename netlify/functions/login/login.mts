@@ -21,13 +21,16 @@ export default async (request: Request, context: Context) => {
 			},
 			body: JSON.stringify(payload),
 		};
+
+		console.log(postOptions.body);
+
 		const response = await fetch(
 			"https://www.inaturalist.org/v2/oauth/token",
 			postOptions,
 		);
 		if (!response.ok)
 			return new Response(
-				`Unhandled response status: ${response.status} body: ${response.json()}`,
+				`Unhandled response status: ${response.status} body: ${await response.json()}`,
 				{ status: 503 },
 			);
 
