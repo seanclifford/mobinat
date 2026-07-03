@@ -10,7 +10,7 @@ export default async (request: Request, context: Context) => {
 			client_secret: process.env.OAUTH_SECRET,
 			code: code,
 			grant_type: "authorization_code",
-			//redirect_uri: REDIRECT_URI unsure if required
+			redirect_uri: `${process.env.VITE_THIS_SITE_URL}/oauth-redirect`,
 		};
 
 		const postOptions = {
@@ -27,7 +27,7 @@ export default async (request: Request, context: Context) => {
 		);
 		if (!response.ok)
 			return new Response(
-				`Unhandled response status: ${response.status} body: ${response.body}`,
+				`Unhandled response status: ${response.status} body: ${response.json()}`,
 				{ status: 503 },
 			);
 
