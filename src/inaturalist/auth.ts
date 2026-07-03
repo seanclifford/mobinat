@@ -62,7 +62,7 @@ function decodeJwt(token: string) {
 
 export async function requestApiToken() {
 	const response = await limit(() => {
-		return fetch("/auth");
+		return fetch("/.netlify/functions/auth");
 	});
 
 	if (!response.ok) {
@@ -80,7 +80,7 @@ export async function performAccessTokenRequest(
 	setLoadingStatus: React.Dispatch<React.SetStateAction<LoadingStatus>>,
 ) {
 	limit(() => {
-		return fetch(`/login?code=${auth_code}`);
+		return fetch(`/.netlify/functions/login?code=${auth_code}`);
 	})
 		.then(async (response) => {
 			if (!response.ok) {
