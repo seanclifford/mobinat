@@ -10,7 +10,7 @@ export default async (request: Request, context: Context) => {
 			client_secret: process.env.OAUTH_SECRET,
 			code: code,
 			grant_type: "authorization_code",
-			redirect_uri: `${process.env.VITE_THIS_SITE_URL}/oauth-redirect`,
+			redirect_uri: `${process.env.DEPLOY_PRIME_URL}/oauth-redirect`,
 		};
 
 		const postOptions = {
