@@ -25,7 +25,7 @@ export default async (request: Request, context: Context) => {
 		console.log(postOptions.body);
 
 		const response = await fetch(
-			"https://www.inaturalist.org/v2/oauth/token",
+			"https://www.inaturalist.org/oauth/token",
 			postOptions,
 		);
 		if (!response.ok)
