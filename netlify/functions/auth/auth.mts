@@ -29,7 +29,9 @@ export default async (_: Request, context: Context) => {
 
 		return new Response(response.body);
 	} catch (error) {
-		return new Response((error as Error).toString(), {
+		const errorString = (error as Error).toString();
+		console.error(errorString);
+		return new Response(errorString, {
 			status: 500,
 		});
 	}

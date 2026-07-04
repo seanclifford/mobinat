@@ -23,8 +23,6 @@ export default async (request: Request, context: Context) => {
 			body: JSON.stringify(payload),
 		};
 
-		console.log(postOptions.body);
-
 		const response = await fetch(
 			"https://www.inaturalist.org/oauth/token",
 			postOptions,
@@ -46,7 +44,9 @@ export default async (request: Request, context: Context) => {
 		});
 		return new Response("Auth success. iNatAccessToken cookie created.");
 	} catch (error) {
-		return new Response((error as Error).toString(), {
+		const errorString = (error as Error).toString();
+		console.error(errorString);
+		return new Response(errorString, {
 			status: 500,
 		});
 	}
