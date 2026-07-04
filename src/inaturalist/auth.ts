@@ -128,7 +128,7 @@ export function clearAllAuthenticationState() {
 	sessionStorage.removeItem(AUTH_API_TOKEN);
 	sessionStorage.removeItem(PRE_AUTH_LOCATION);
 
-	fetch(`/.netlify/functions/login`)
+	fetch(`/.netlify/functions/logout`)
 		.then(async (response) => {
 			if (!response.ok) {
 				console.error(
