@@ -71,7 +71,14 @@ export async function requestApiToken() {
 	});
 
 	if (!response.ok) {
-		console.log("Failed during request to get the api token");
+		if (response.status === 401) {
+			console.log("Not authenticated. Ensuring logged out client side.");
+			clearAllAuthenticationState();
+		} else {
+			console.error(
+				`Failed during request to get the api token: ${await response.text()}`,
+			);
+		}
 	} else {
 		const body = await response.json();
 		const apiToken = body.api_token;
@@ -80,7 +87,7 @@ export async function requestApiToken() {
 	}
 }
 
-export async function performAccessTokenRequest(
+export function performAccessTokenRequest(
 	auth_code: string,
 	setLoadingStatus: React.Dispatch<React.SetStateAction<LoadingStatus>>,
 ) {
@@ -93,7 +100,9 @@ export async function performAccessTokenRequest(
 	})
 		.then(async (response) => {
 			if (!response.ok) {
-				console.log("Failed during request to get the access token");
+				console.error(
+					`Failed during request to get the access token: ${await response.text()}`,
+				);
 				setLoadingStatus("error");
 				return;
 			}

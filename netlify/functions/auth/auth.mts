@@ -23,7 +23,7 @@ export default async (_: Request, context: Context) => {
 
 		if (!response.ok)
 			return new Response(
-				`Unhandled bad response status: ${response.status} body: ${response.body}`,
+				`Unhandled bad response status: ${response.status} body: ${await response.text()}`,
 				{ status: 503 },
 			);
 
