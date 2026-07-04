@@ -4,13 +4,14 @@ export default async (request: Request, context: Context) => {
 	try {
 		const url = new URL(request.url);
 		const code = url.searchParams.get("code");
+		const redirect_uri = url.searchParams.get("redirect_uri");
 
 		const payload = {
 			client_id: process.env.VITE_OAUTH_APPLICATION_ID,
 			client_secret: process.env.OAUTH_SECRET,
 			code: code,
 			grant_type: "authorization_code",
-			redirect_uri: `${process.env.DEPLOY_PRIME_URL}/oauth-redirect`,
+			redirect_uri: redirect_uri,
 		};
 
 		const postOptions = {

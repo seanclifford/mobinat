@@ -23,7 +23,12 @@ export function isAuthenticated() {
 export async function authenticate(currentSite: Site) {
 	sessionStorage.setItem(PRE_AUTH_LOCATION, window.location.href);
 
-	const redirect = `${currentSite.url}/oauth/authorize?client_id=${OAUTH_APPLICATION_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code`;
+	const redirectParams = new URLSearchParams([
+		["client_id", OAUTH_APPLICATION_ID],
+		["redirect_uri", REDIRECT_URI],
+		["response_type", "code"],
+	]);
+	const redirect = `${currentSite.url}/oauth/authorize?${redirectParams.toString()}`;
 	window.location.href = redirect;
 }
 
@@ -79,8 +84,12 @@ export async function performAccessTokenRequest(
 	auth_code: string,
 	setLoadingStatus: React.Dispatch<React.SetStateAction<LoadingStatus>>,
 ) {
+	const loginParams = new URLSearchParams([
+		["code", auth_code],
+		["redirect_uri", REDIRECT_URI],
+	]);
 	limit(() => {
-		return fetch(`/.netlify/functions/login?code=${auth_code}`);
+		return fetch(`/.netlify/functions/login?${loginParams.toString()}`);
 	})
 		.then(async (response) => {
 			if (!response.ok) {
