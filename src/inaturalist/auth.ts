@@ -110,7 +110,7 @@ export function performAccessTokenRequest(
 			setLoadingStatus("success");
 		})
 		.catch((error) => {
-			console.log(error.message);
+			console.error(error.message);
 			setLoadingStatus("error");
 		});
 }
@@ -127,4 +127,14 @@ export function clearAllAuthenticationState() {
 	localStorage.removeItem(AUTHENTICATED_FLAG);
 	sessionStorage.removeItem(AUTH_API_TOKEN);
 	sessionStorage.removeItem(PRE_AUTH_LOCATION);
+
+	fetch(`/.netlify/functions/login`)
+		.then(async (response) => {
+			if (!response.ok) {
+				console.error(
+					`Logout failed to clear cookie: ${await response.text()}`,
+				);
+			}
+		})
+		.catch((error) => console.error(error.message));
 }
