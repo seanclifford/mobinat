@@ -1,24 +1,38 @@
-# Auth flow and notes
+# MobiNat Authentication flow and notes
 
-Using OAuth Code Flow in order to keep the OAuth client secret actually secret (stored in netlify env vars), and keep the user's access token from being accessed by JavaScript by keeping it in an HTTP only cookie.
+MobiNat uses the [authorization code flow](https://www.inaturalist.org/pages/api+reference#authorization_code_flow) in order to authenticate users with iNaturalist.
 
-No storage server side keeps things secure for users too. The functions are only used as a proxy to iNat.
+This has the benefit of being able to keep the long-lived access token secure from Javascript attacks in an HTTP only cookie.
 
-The JWT will still be accessible by JavaScript, but needs to be for the app to function. However it has a limited lifespan (I think it's 24 hours?)
+The downside is that I need to involve server-side functions to facilitate this. The functions are only used as a proxy to iNat, but it's worth the extra security.
 
-1. User clicks button
-2. Redirect to #{site}/oauth/authorize?client_id=#{app_id}&redirect_uri=#{redirect_uri}&response_type=code"
-3. Response comes back to oauth_redirect with a code
-4. Flick a request to the netlify Login function to auth with code
-5. Login Function calls POST #{site}/oauth/token with payload including secret code, client id, etc.
-6. Login Function receives a response with the authorization_code
-7. Store access_token on a cookie on the function response with HttpOnly and Secure
-8. Send a request to the netlify Auth function to get a JWT
-9. Function calls /users/api_token with access_token to get JWT and return on response body
-10. JWT stored in session storage.
+For the app to work, the comparitively short-lived JWT will still be accessible by JavaScript, but needs to be provide in order to access to perform actions (such as annotate) on the user's behalf.
 
-- On expiry, Auth function recalled
-- On first load, Auth function called to load auth state - no cookie means no JWT returned
-- change to use Authorization Code Flow instead of PKCE Flow
-- Keep secret in a env variable in netlify
-- Both functions could result in failure. Manage those flows
+## Login flow
+
+1. User clicks Login button
+2. Browser is directed to iNaturalist at `#{site}/oauth/authorize?client_id=#{app_id}&redirect_uri=#{redirect_uri}&response_type=code`
+3. User accepts permission request in the browser
+4. Response comes back to MobiNat to the oauth_redirect page with a code
+5. Call is made to the Login server function to authenticate with the code
+6. Login Function calls POST www.inaturalist.org/oauth/token with payload including secret code, client id, client secret, etc.
+7. Login Function receives a response with the the access_token
+8. The access_token is stored on a cookie on the function response with HttpOnly and Secure, which saves it to the browser cookie store
+9. A flag that the brower has an authentication cookie is stored in local storage
+10. JWT flow is called 
+
+## JWT / Auth flow
+
+1. After login, on session start, or when JWT expires...
+2. Authenticated flag is checked in local storage before continuing
+3. Call is made to the Auth server function to get a JWT. The access_token is automatically sent with the cookie.
+4. Auth function calls www.inaturalist.org/users/api_token with the access_token to get a JWT and it is returned to the browser
+5. JWT is stored in session storage to be used in user actions. It is removed once the session ends (browser or tab close)
+
+## Logout flow
+
+1. User clicks Logout (or a 401 - Unauthenticated response is recevied from the Auth function)
+2. All local login data is removed (JWT and flag that we have a cookie)
+3. Call is made to Logout server function
+4. Cookie deletion is set up on response
+5. Cookie deleted in browser
