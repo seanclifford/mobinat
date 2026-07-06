@@ -50,11 +50,8 @@ export default function HelpSection() {
 			</Text>
 			<List type="ordered">
 				<List.Item>
-					Data is only ever sent directly to iNaturalist or the{" "}
-					<Anchor href="https://www.inaturalist.org/sites/network">
-						network site
-					</Anchor>{" "}
-					you choose. Additionally, MobiNat does <b>not</b> track your actions.
+					Data can only be sent to iNaturalist or to login functions used to
+					keep your account secure.
 					<br />
 					This is enforced by your browser and be confirmed by checking the{" "}
 					<Anchor href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy/connect-src">
@@ -67,9 +64,17 @@ export default function HelpSection() {
 					.
 				</List.Item>
 				<List.Item>
+					MobiNat doesn't store any server side data on your account, and does
+					not identify or track your usage. The host, netlify.com, does track
+					some basic anonymous usage statistics for up to 24 hours.
+				</List.Item>
+				<List.Item>
 					When you <b>Login</b> on MobiNat, your iNaturalist account details are
-					only stored locally on your device. You can clear this information at
-					any time by choosing <b>Logout</b> from the Account tab.
+					only stored locally on your device. Nothing is stored server-side. The
+					process does involve communicating with our server, only in order to
+					store your account login in 'cookie' on your device in a secure way.
+					You can clear this local login data at any time by choosing{" "}
+					<b>Logout</b> from the Account tab.
 				</List.Item>
 				<List.Item>
 					The code for MobiNat is all open source - so it is readable and

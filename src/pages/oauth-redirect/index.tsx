@@ -1,13 +1,11 @@
 import { Center } from "@mantine/core";
-import { useContext, useEffect, useState } from "react";
-import { SiteContext } from "../../Contexts";
+import { useEffect, useState } from "react";
 import {
 	performAccessTokenRequest,
 	redirectToPreAuthLocation,
 } from "../../inaturalist/auth";
 
 function OauthRedirect() {
-	const [site] = useContext(SiteContext);
 	const [loadingStatus, setLoadingStatus] = useState<LoadingStatus>("pending");
 
 	useEffect(() => {
@@ -17,8 +15,8 @@ function OauthRedirect() {
 		if (!authCode) {
 			alert("Authentication failed - no auth code supplied, please try again.");
 			redirectToPreAuthLocation();
-		} else performAccessTokenRequest(site, authCode, setLoadingStatus);
-	}, [site]);
+		} else performAccessTokenRequest(authCode, setLoadingStatus);
+	}, []);
 
 	useEffect(() => {
 		if (loadingStatus === "success") {
