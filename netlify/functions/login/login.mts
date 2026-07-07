@@ -41,6 +41,7 @@ export default async (request: Request, context: Context) => {
 			httpOnly: true,
 			sameSite: "Strict",
 			secure: true,
+			maxAge: 31536000, // one year
 		});
 		return new Response("Auth success. iNatAccessToken cookie created.");
 	} catch (error) {
