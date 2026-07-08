@@ -27,10 +27,12 @@
 		"@types/node": "^25.5.0",
 		"@types/react": "^19.2.17",
 		"@types/react-dom": "^19.2.3",
+		"@vitejs/plugin-legacy": "^8.1.0",
 		"@vitejs/plugin-react": "^6.0.1",
 		"postcss": "^8.5.1",
 		"postcss-preset-mantine": "^1.17.0",
 		"postcss-simple-vars": "^7.0.1",
+		"terser": "^5.48.0",
 		"typescript": "^5.9.3",
 		"vite": "^8.0.0"
 	}

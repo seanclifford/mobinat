@@ -1,3 +1,4 @@
+import legacy from "@vitejs/plugin-legacy";
 import react from "@vitejs/plugin-react";
 import { defineConfig, loadEnv } from "vite";
 
@@ -6,7 +7,7 @@ export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd());
 	return {
 		base: env.VITE_BASE_PATH,
-		plugins: [react()],
+		plugins: [react(), legacy({ targets: ["defaults", "not IE 11"] })],
 		host: process.env.VITE_SERVER_HOST,
 		preview: {
 			headers: {
@@ -20,6 +21,7 @@ export default defineConfig(({ mode }) => {
 		},
 		build: {
 			sourcemap: true,
+			chunkSizeWarningLimit: 650,
 			rolldownOptions: {
 				output: {
 					codeSplitting: {
@@ -28,6 +30,11 @@ export default defineConfig(({ mode }) => {
 								name: "react-vendor",
 								test: /node_modules[\\/]react/,
 								priority: 20,
+							},
+							{
+								name: "mantine-vendor",
+								test: /node_modules[\\/]@mantine/,
+								priority: 30,
 							},
 							{
 								name: "vendor",
