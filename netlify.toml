@@ -4,6 +4,7 @@
     X-Frame-Options = "DENY"
     Content-Security-Policy = """
       default-src 'self';\
+      script-src 'self' data: 'sha256-MS6/3FCg4WjP9gwgaBGwLpRCY6fZBgwmhVCdrPrNf3E=' 'sha256-tQjf8gvb2ROOMapIxFvFAYBeUJ0v1HCbOcSmDNXGtDo=' 'sha256-w36slEqa9euNKxfvkw+LLGsDIr++3rsZXpZxtmRh8Aw=' 'sha256-+5XkZFazzJo8n0iOP4ti/cLCMUudTf//Mzkb7xNPXIc=' 'sha256-Z2/iFzh9VMlVkEOar1f/oSHWwQk3ve1qk/C2WdsC4Xk=';\
       style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com;\
       connect-src 'self' *.inaturalist.org;\
       img-src 'self' *.inaturalist.org https://inaturalist-open-data.s3.amazonaws.com;\

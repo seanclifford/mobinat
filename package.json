@@ -24,10 +24,11 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.0",
+		"@netlify/vite-plugin": "^2.12.8",
 		"@types/node": "^25.5.0",
 		"@types/react": "^19.2.17",
 		"@types/react-dom": "^19.2.3",
-		"@vitejs/plugin-legacy": "^8.1.0",
+		"@vitejs/plugin-legacy": "~8.2.1",
 		"@vitejs/plugin-react": "^6.0.1",
 		"postcss": "^8.5.1",
 		"postcss-preset-mantine": "^1.17.0",
