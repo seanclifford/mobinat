@@ -2,11 +2,18 @@
 
 MobiNat uses the [authorization code flow](https://www.inaturalist.org/pages/api+reference#authorization_code_flow) in order to authenticate users with iNaturalist.
 
-This has the benefit of being able to keep the long-lived access token secure from Javascript attacks in an HTTP only cookie.
+This has the benefit of being able to keep the long-lived access token secure from Javascript attacks in an HTTP only cookie on the user's device.
 
-The downside is that I need to involve server-side functions to facilitate this. The functions are only used as a proxy to iNat, but it's worth the extra security.
+The downside is that I need to involve server-side functions to facilitate this. The functions are only used as a proxy to iNat, but I think it's worth the extra security.
 
 For the app to work, the comparitively short-lived JWT will still be accessible by JavaScript, but needs to be provide in order to access to perform actions (such as annotate) on the user's behalf.
+
+## Browser storage
+
+This data is stored client side in browser storage once the authentication flows have been completed successfully:
+- Long-lived Authentication Code is stored in an HTTP only cookie. Used to retrieve a JWT.
+- Short-lived JWT is stored in session storage. Used on authenticated requests to iNaturalist.
+- A simple flag is stored to in local storage. Used to indicate that the user has authenticated and a cookie is (probably) present.
 
 ## Login flow
 

@@ -50,31 +50,24 @@ export default function HelpSection() {
 			</Text>
 			<List type="ordered">
 				<List.Item>
-					Data can only be sent to iNaturalist or to login functions used to
-					keep your account secure.
-					<br />
-					This is enforced by your browser and be confirmed by checking the{" "}
-					<Anchor href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy/connect-src">
-						connect-src
-					</Anchor>{" "}
-					of{" "}
-					<Anchor href="https://github.com/seanclifford/mobinat/blob/master/netlify.toml#L8">
-						the Content-Security-Policy set here
+					Your data is only sent to iNaturalist. During login, some information
+					is send via our server, but only as a proxy in order to keep your
+					account details secure on your device.{" "}
+					<Anchor
+						href="https://github.com/seanclifford/mobinat/blob/master/netlify/functions/authFlow.md"
+						target="_blank"
+					>
+						Technical details of how this works can be found here.
 					</Anchor>
-					.
 				</List.Item>
 				<List.Item>
 					MobiNat doesn't store any server side data on your account, and does
-					not identify or track your usage. The host, netlify.com, does track
-					some basic anonymous usage statistics for up to 24 hours.
+					not identify or track your usage.
 				</List.Item>
 				<List.Item>
 					When you <b>Login</b> on MobiNat, your iNaturalist account details are
-					only stored locally on your device. Nothing is stored server-side. The
-					process does involve communicating with our server, only in order to
-					store your account login in 'cookie' on your device in a secure way.
-					You can clear this local login data at any time by choosing{" "}
-					<b>Logout</b> from the Account tab.
+					only stored locally on your device. You can clear this local login
+					data at any time by choosing <b>Logout</b> from the Account tab.
 				</List.Item>
 				<List.Item>
 					The code for MobiNat is all open source - so it is readable and
