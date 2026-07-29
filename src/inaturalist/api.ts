@@ -1,3 +1,4 @@
+import { ApiError } from "../errors/ApiError.ts";
 import { AuthenticationError } from "../errors/AuthenticationError.ts";
 import { limit } from "./api-limiter.ts";
 import {
@@ -63,12 +64,14 @@ function remove(path: string, authToken: string): Promise<Response> {
 
 export async function getCurrentUser(authentication: Authentication) {
 	if (!authentication.authToken) {
-		throw new Error("Authentication is required to get current user");
+		throw new AuthenticationError(
+			"Authentication is required to get current user",
+		);
 	}
 	const query = new URLSearchParams([["fields", userApiFields]]);
 	const response = await getAuth(`users/me?${query}`, authentication.authToken);
 	if (!response.ok) {
-		throw new Error("Could not load current user");
+		throw new ApiError("Could not load current user", response.status);
 	}
 	const body = (await response.json()) as ApiResult<User>;
 	return body.results[0];
@@ -84,7 +87,7 @@ export async function getUser(id: string | null) {
 
 	const response = await get(`users/${idNumber}?${query}`);
 	if (!response.ok) {
-		throw new Error("Could not load user");
+		throw new ApiError("Could not load user", response.status);
 	}
 	const body = (await response.json()) as ApiResult<User>;
 	return body.results[0];
@@ -95,7 +98,7 @@ export async function getUsersAutocomplete(query: URLSearchParams) {
 
 	const response = await get(`users/autocomplete?${query.toString()}`);
 	if (!response.ok) {
-		throw new Error("Could not load users");
+		throw new ApiError("Could not load users", response.status);
 	}
 	const body = (await response.json()) as ApiResult<User>;
 	return body.results;
@@ -105,7 +108,7 @@ export async function getSites() {
 	const query = new URLSearchParams([["fields", siteApiFields]]);
 	const response = await get(`sites?${query}`);
 	if (!response.ok) {
-		throw new Error("Could not load sites");
+		throw new ApiError("Could not load sites", response.status);
 	}
 	const body = (await response.json()) as ApiResult<Site>;
 	return body.results;
@@ -123,7 +126,7 @@ export async function getObservations(
 		? await getAuth(path, authentication.authToken, false)
 		: await get(path, true);
 	if (!response.ok) {
-		throw new Error("Could not load observations");
+		throw new ApiError("Could not load observations", response.status);
 	}
 	const body = (await response.json()) as ApiResult<Observation>;
 	return {
@@ -142,7 +145,7 @@ export async function getTaxon(id: string | null, query: URLSearchParams) {
 
 	const response = await get(`taxa/${idNumber}?${query}`);
 	if (!response.ok) {
-		throw new Error("Could not load taxon");
+		throw new ApiError("Could not load taxon", response.status);
 	}
 	const body = (await response.json()) as ApiResult<Taxon>;
 	return body.results[0];
@@ -153,7 +156,7 @@ export async function getTaxaAutocomplete(query: URLSearchParams) {
 
 	const response = await get(`taxa/autocomplete?${query.toString()}`);
 	if (!response.ok) {
-		throw new Error("Could not load taxa");
+		throw new ApiError("Could not load taxa", response.status);
 	}
 	const body = (await response.json()) as ApiResult<Taxon>;
 	return body.results;
@@ -163,7 +166,7 @@ export async function getControlledTerms() {
 	const query = new URLSearchParams([["fields", controlledTermsApiFields]]);
 	const response = await get(`controlled_terms?${query}`);
 	if (!response.ok) {
-		throw new Error("Could not load controlled terms");
+		throw new ApiError("Could not load controlled terms", response.status);
 	}
 	const body = (await response.json()) as ApiResult<ControlledTerm>;
 	return body.results;
@@ -186,7 +189,7 @@ export async function addAnnotation(
 		authentication.authToken,
 	);
 	if (!response.ok) {
-		throw new Error("Could not save annotation");
+		throw new ApiError("Could not save annotation", response.status);
 	}
 	const body = (await response.json()) as ApiResult<NewAnnotation>;
 	return body.results[0];
@@ -206,7 +209,7 @@ export async function deleteAnnotation(
 		authentication.authToken,
 	);
 	if (!response.ok) {
-		throw new Error("Could not delete annotation");
+		throw new ApiError("Could not delete annotation", response.status);
 	}
 }
 
@@ -221,7 +224,7 @@ export async function getPlace(id: string | null, query: URLSearchParams) {
 
 	const response = await get(`places/${idNumber}?${query.toString()}`);
 	if (!response.ok) {
-		throw new Error("Could not load place");
+		throw new ApiError("Could not load place", response.status);
 	}
 	const body = (await response.json()) as ApiResult<Place>;
 	return body.results[0];
@@ -231,7 +234,7 @@ export async function getPlacesAutocomplete(query: URLSearchParams) {
 	query.append("fields", placeApiFields);
 	const response = await get(`places?${query.toString()}`);
 	if (!response.ok) {
-		throw new Error("Could not load places");
+		throw new ApiError("Could not load places", response.status);
 	}
 	const body = (await response.json()) as ApiResult<Place>;
 	return body.results;
@@ -248,7 +251,7 @@ export async function getProject(id: string | null) {
 
 	const response = await get(`projects/${idNumber}?${query.toString()}`);
 	if (!response.ok) {
-		throw new Error("Could not load project");
+		throw new ApiError("Could not load project", response.status);
 	}
 	const body = (await response.json()) as ApiResult<Project>;
 	return body.results[0];
@@ -258,7 +261,7 @@ export async function getProjectsAutocomplete(query: URLSearchParams) {
 	query.append("fields", projectApiFields);
 	const response = await get(`projects?${query.toString()}`);
 	if (!response.ok) {
-		throw new Error("Could not load projects");
+		throw new ApiError("Could not load projects", response.status);
 	}
 	const body = (await response.json()) as ApiResult<Project>;
 	return body.results;
