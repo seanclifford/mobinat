@@ -11,7 +11,11 @@ export default defineConfig(({ mode }) => {
 		plugins: [
 			react(),
 			netlify(),
-			legacy({ targets: ["defaults", "not IE 11"] }),
+			legacy({
+				targets: [
+					"last 6 years, not Edge > 0, not Firefox > 0, not Chrome > 0, not Safari > 0, not Opera > 0", // exclude outdated desktop browsers
+				],
+			}),
 		],
 		host: process.env.VITE_SERVER_HOST,
 		preview: {
