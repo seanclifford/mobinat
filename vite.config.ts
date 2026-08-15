@@ -1,4 +1,3 @@
-import netlify from "@netlify/vite-plugin";
 import legacy from "@vitejs/plugin-legacy";
 import react from "@vitejs/plugin-react";
 import { defineConfig, loadEnv } from "vite";
@@ -10,7 +9,6 @@ export default defineConfig(({ mode }) => {
 		base: env.VITE_BASE_PATH,
 		plugins: [
 			react(),
-			netlify(),
 			legacy({
 				targets: [
 					"last 6 years, not Edge > 0, not Firefox > 0, not Chrome > 0, not Safari > 0, not Opera > 0", // exclude outdated desktop browsers
