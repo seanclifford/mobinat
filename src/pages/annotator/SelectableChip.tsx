@@ -35,7 +35,7 @@ export default function SelectableChip({
 				controlledValueId: controlledValue.id,
 			})
 				?.finally(() => setProcessing(false))
-				.catch(console.error);
+				.catch(console.error); //handle error through global context means
 		} else {
 			const annotation = yourAnnotations.find(
 				(a) => a.controlled_value_id === controlledValue.id,
@@ -47,7 +47,7 @@ export default function SelectableChip({
 					annotationId: annotation.uuid,
 				})
 					.finally(() => setProcessing(false))
-					.catch(console.error);
+					.catch(console.error); // handle error through global context means
 			}
 		}
 	};

@@ -60,7 +60,7 @@ function decodeJwt(token: string) {
 	try {
 		return jwtDecode<INatJwt>(token);
 	} catch (e) {
-		console.error(e);
+		console.error(e); //Leave as is
 		return null;
 	}
 }
@@ -77,7 +77,7 @@ export async function requestApiToken() {
 		} else {
 			console.error(
 				`Failed during request to get the api token: ${await response.text()}`,
-			);
+			); // throw error here instead. Handle in useAuthentication.
 		}
 	} else {
 		const body = await response.json();
@@ -101,6 +101,7 @@ export function performAccessTokenRequest(
 		.then(async (response) => {
 			if (!response.ok) {
 				console.error(
+					//Push through error via loading status? or change it to a standard method?
 					`Failed during request to get the access token: ${await response.text()}`,
 				);
 				setLoadingStatus("error");
@@ -110,7 +111,7 @@ export function performAccessTokenRequest(
 			setLoadingStatus("success");
 		})
 		.catch((error) => {
-			console.error(error.message);
+			console.error(error.message); //Push through error via loading status? or change it to a standard method?
 			setLoadingStatus("error");
 		});
 }
@@ -133,8 +134,8 @@ export function clearAllAuthenticationState() {
 			if (!response.ok) {
 				console.error(
 					`Logout failed to clear cookie: ${await response.text()}`,
-				);
+				); // Throw here. Callers in useAuthentication should handle
 			}
 		})
-		.catch((error) => console.error(error.message));
+		.catch((error) => console.error(error.message)); //Throw error here. Caller in useAuth should handle
 }

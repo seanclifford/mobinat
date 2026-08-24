@@ -12,6 +12,7 @@ export default function useAuthentication(): Authentication {
 	const [authentication, saveAuthentication] = useState(() =>
 		loadAuthenticationFromStore(),
 	);
+	//Handle error
 	const refreshAuthTimeoutId = useRef(undefined as number | undefined);
 
 	useEffect(() => {
@@ -37,7 +38,7 @@ export default function useAuthentication(): Authentication {
 	}, [authentication]);
 
 	const logout = useCallback(() => {
-		clearAllAuthenticationState();
+		clearAllAuthenticationState(); //handle error here
 		saveAuthentication(unauthenticated);
 	}, []);
 
@@ -59,7 +60,7 @@ function refreshAuthToken(
 				authToken: apiToken,
 			});
 		}
-	});
+	}); // catch. Record and continue
 }
 
 function loadAuthenticationFromStore(): Authentication {

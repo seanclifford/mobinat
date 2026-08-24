@@ -24,7 +24,7 @@ export function useProjectAutocomplete(
 			});
 			getProjectsAutocomplete(generateQueryString(search))
 				.then((projects) => onLoadProject(projects, setResults, queryClient))
-				.catch(console.error);
+				.catch(console.error); //record error. continue
 		}
 	}, [search, queryClient]);
 

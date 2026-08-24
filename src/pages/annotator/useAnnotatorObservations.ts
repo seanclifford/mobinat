@@ -56,7 +56,7 @@ export function useAnnotatorObservations(
 		},
 		onError(error) {
 			if (error instanceof AuthenticationError) requestAuthentication();
-			else console.error(error);
+			else console.error(error); // handle error through global means
 		},
 		onSuccess(observation: Observation) {
 			replaceObservation?.(observation);
@@ -74,7 +74,7 @@ export function useAnnotatorObservations(
 		},
 		onError(error) {
 			if (error instanceof AuthenticationError) requestAuthentication();
-			else console.error(error);
+			else console.error(error); //handle error through global means
 		},
 		onSuccess: (observation) => {
 			replaceObservation?.(observation);

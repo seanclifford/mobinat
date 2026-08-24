@@ -24,7 +24,7 @@ export function useUsersAutocomplete(
 			});
 			getUsersAutocomplete(generateQueryString(search))
 				.then((users) => onLoadUser(users, setResults, queryClient))
-				.catch(console.error);
+				.catch(console.error); // record error. continue
 		}
 	}, [search, queryClient]);
 

@@ -25,7 +25,7 @@ export function usePlacesAutocomplete(
 			});
 			getPlacesAutocomplete(generateQueryString(search, site))
 				.then((places) => onLoadPlaces(places, setResults, queryClient))
-				.catch(console.error);
+				.catch(console.error); // record error. continue
 		}
 	}, [search, site, queryClient]);
 

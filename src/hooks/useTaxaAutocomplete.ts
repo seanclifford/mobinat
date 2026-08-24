@@ -25,7 +25,7 @@ export function useTaxaAutocomplete(
 			});
 			getTaxaAutocomplete(generateQueryString(search, site))
 				.then((taxa) => onLoadTaxa(taxa, setResults, queryClient))
-				.catch(console.error);
+				.catch(console.error); // record error. continue
 		}
 	}, [search, site, queryClient]);
 
