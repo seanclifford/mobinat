@@ -1,6 +1,8 @@
+import { Button, Center } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { SettingsIcon } from "lucide-react";
 import { useRef } from "react";
+import { ErrorBoundary, getErrorMessage } from "react-error-boundary";
 import AuthenticationModal from "../../components/authentication-modal/AuthenticationModal";
 import SettingsModal from "../../components/settings/SettingsModal";
 import AnnotatorGallery, { type SlidesRef } from "./AnnotatorGallery";
@@ -54,11 +56,27 @@ export default function AnnotatorDisplay({
 					zIndex: "100",
 				}}
 			/>
-			<AnnotatorGallery
-				ref={slidesRef}
-				submittedQueryString={pageQueryString}
-				openAuthentication={openAuthentication}
-			/>
+			<ErrorBoundary
+				fallbackRender={({ error, resetErrorBoundary }) => (
+					<Center>
+						<p>Something went wrong:</p>
+						<pre>{getErrorMessage(error)}</pre>
+						<Button onClick={resetErrorBoundary}>Back to filters</Button>
+					</Center>
+				)}
+				onError={(error, info) => {
+					console.log(error, info);
+				}}
+				onReset={() => {
+					setPageQueryString("");
+				}}
+			>
+				<AnnotatorGallery
+					ref={slidesRef}
+					submittedQueryString={pageQueryString}
+					openAuthentication={openAuthentication}
+				/>
+			</ErrorBoundary>
 		</>
 	);
 }

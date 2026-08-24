@@ -1,5 +1,6 @@
-import { Box } from "@mantine/core";
+import { Box, Center } from "@mantine/core";
 import React from "react";
+import { ErrorBoundary, getErrorMessage } from "react-error-boundary";
 import { outerWidth } from "../../components/observation-hero/dimensions";
 import ObservationHero from "../../components/observation-hero/ObservationHero";
 import { AnnotationSelector } from "./AnnotationSelector";
@@ -16,16 +17,26 @@ const AnnotatorSlide = React.memo(function AnnotatorSlide({
 	const { observation, controlledTerms } = annotatorObservation;
 
 	return (
-		<Box w={outerWidth} mih="100vh">
-			<ObservationHero observation={observation} />
-			{observation && controlledTerms && (
-				<AnnotationSelector
-					observationControlledTerms={controlledTerms}
-					observation={observation}
-					annotationFunctions={annotationFunctions}
-				/>
+		<ErrorBoundary
+			fallbackRender={({ error }) => (
+				<Center>
+					<p>Something went wrong:</p>
+					<pre>{getErrorMessage(error)}</pre>
+				</Center>
 			)}
-		</Box>
+			onError={console.log}
+		>
+			<Box w={outerWidth} mih="100vh">
+				<ObservationHero observation={observation} />
+				{observation && controlledTerms && (
+					<AnnotationSelector
+						observationControlledTerms={controlledTerms}
+						observation={observation}
+						annotationFunctions={annotationFunctions}
+					/>
+				)}
+			</Box>
+		</ErrorBoundary>
 	);
 });
 
